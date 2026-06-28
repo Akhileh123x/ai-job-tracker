@@ -32,14 +32,14 @@ export default function LoginPage() {
       await signIn.email({
         email: formData.email,
         password: formData.password,
-        fetchOptions: {
-          onSuccess: () => {
-            router.push("/dashboard");
-            router.refresh();
-          },
-          onError: (ctx) => {
-            setError(ctx.error.message || "Invalid email or password");
-          }
+      }, {
+        // 🎯 FIX: Callbacks are placed in the second options object for Better Auth
+        onSuccess: () => {
+          router.push("/dashboard");
+          router.refresh();
+        },
+        onError: (ctx) => {
+          setError(ctx.error.message || "Invalid email or password");
         }
       });
     } catch (err) {
@@ -73,6 +73,7 @@ export default function LoginPage() {
                 placeholder="you@example.com"
                 value={formData.email}
                 onChange={handleChange}
+                autoComplete="email"
                 required
               />
             </div>
@@ -86,6 +87,7 @@ export default function LoginPage() {
                 placeholder="••••••••"
                 value={formData.password}
                 onChange={handleChange}
+                autoComplete="current-password"
                 required
               />
             </div>
